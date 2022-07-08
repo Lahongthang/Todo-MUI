@@ -1,7 +1,8 @@
+import { useState } from "react"
 import { useSelector } from "react-redux"
 import { selectAllTodos } from "../../features/todos/todosSlice"
 import { StatusFilters } from "../../features/filters/filtersSlice"
-import { Grid, Stack, Button, Box, Typography } from "@mui/material"
+import { Grid, Stack, Button, Box, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material"
 
 const RemainingTodos = ({count}) => {
     const suffix = count < 2 ? '' : 's'
@@ -18,14 +19,30 @@ const RemainingTodos = ({count}) => {
 }
 
 const StatusFilter = () => {
+    const [alignment, setAlignment] = useState('all')
+
+    const handleChange = (e) => {
+        setAlignment(e.target.value)
+    }
 
     return (
-        <></>
+        <Box >
+            <ToggleButtonGroup
+                orientation="vertical"
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+            >
+                <ToggleButton value='all'>All</ToggleButton>
+                <ToggleButton value='active'>Active</ToggleButton>
+                <ToggleButton value='completed'>Completed</ToggleButton>
+            </ToggleButtonGroup>
+        </Box>
     )
 }
 
 const ColorFilter = () => {
-    
+
     return (
         <></>
     )
@@ -34,6 +51,15 @@ const ColorFilter = () => {
 const Footer = () => {
     const todos = useSelector(selectAllTodos)
     const todosRemaining = todos.filter(todo => !todo.completed).length
+    const {statusFilter, colorsFilter} = useSelector(state => state.filters)
+
+    const onStatusChange = () => {
+
+    }
+
+    const onColorChange = () => {
+        
+    }
 
     return (
         <Box marginX={3} marginY={5}>
@@ -54,11 +80,11 @@ const Footer = () => {
                 </Grid>
 
                 <Grid item xs={12} md={3}>
-                    <StatusFilter/>
+                    <StatusFilter value={statusFilter} onChange={onStatusChange}/>
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <ColorFilter/>
+                    <ColorFilter value={colorsFilter} onChange={onColorChange}/>
                 </Grid>
             </Grid>
         </Box>
