@@ -35,7 +35,6 @@ const todosSlice = createSlice({
                 state.status = 'pending'
             })
             .addCase(fetchTodos.fulfilled, (state, action) => {
-                console.log('action: ', action)
                 state.status = 'idle'
                 state.links = action.payload.links
                 state.meta = action.payload.meta

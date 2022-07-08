@@ -1,10 +1,18 @@
 import {createSlice, createEntityAdapter, createAsyncThunk} from '@reduxjs/toolkit'
 import { headers } from '../todos/todosSlice'
 
+export const StatusFilters = {
+    All: 'all',
+    Active: 'active',
+    Completed: 'completed'
+}
+
 const filtersAdapter = createEntityAdapter()
 
 const initialState = filtersAdapter.getInitialState({
-    status: 'idle'
+    status: 'idle',
+    statusFilter: StatusFilters.All,
+    colorsFilter: []
 })
 
 export const fetchColors = createAsyncThunk(
@@ -29,7 +37,6 @@ const filtersSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchColors.fulfilled, (state, action) => {
-                console.log('action2: ', action)
                 state.status = 'idle'
                 filtersAdapter.setAll(state, action.payload.data)
             })
