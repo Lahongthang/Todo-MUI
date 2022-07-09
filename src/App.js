@@ -10,7 +10,13 @@ function App() {
       <Container>
         <Paper
           elevation={10}
-          sx={{background: '#f5f5f5', maxWidth: 752, marginX: 'auto', marginY: 10, overflow: 'hidden'}}
+          sx={{
+              background: '#f5f5f5',
+              maxWidth: 922,
+              marginX: 'auto',
+              marginY: 10,
+              overflow: 'hidden'
+            }}
         >
           <Header/>
           <TodoList/>

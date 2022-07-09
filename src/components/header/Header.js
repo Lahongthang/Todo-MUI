@@ -1,7 +1,10 @@
 import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { addTodo, fetchTodos } from "../../features/todos/todosSlice"
 import { Box, TextField } from "@mui/material"
 
 const Header = () => {
+    const dispatch = useDispatch()
     const [text, setText] = useState('')
     const handleChange = e => {
         setText(e.target.value)
@@ -9,8 +12,9 @@ const Header = () => {
 
     const handleKeyDown = e => {
         if (e.which === 13 && text) {
-            console.log('new todo: ', text)
             setText('')
+            dispatch(addTodo(e.target.value))
+            dispatch(fetchTodos({}))
         }
     }
 
