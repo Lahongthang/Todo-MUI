@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { selectTodoById } from "../../features/todos/todosSlice"
+import { selectTodoById, deleteTodo, updateTodo } from "../../features/todos/todosSlice"
 import { selectAllColors } from "../../features/filters/filtersSlice"
-import { deleteTodo } from "../../features/todos/todosSlice"
 
 import {
     ListItem,
@@ -10,7 +9,6 @@ import {
     IconButton,
     ListItemIcon,
     Checkbox,
-    Box,
     Typography,
     Divider,
     FormControl,
@@ -24,12 +22,14 @@ import EditIcon from '@mui/icons-material/Edit'
 const TodoListItem = ({id}) => {
     const dispatch = useDispatch()
     const todo = useSelector(state => selectTodoById(state, id))
+    const todoColor = todo.color ? todo.color.name : ''
     const apiColors = useSelector(selectAllColors)
     const [checked, setChecked] = useState(todo.completed)
-    const [color, setColor] = useState('')
+    const [color, setColor] = useState(todoColor)
 
-    const handleCheck = () => {
+    const handleStatusChange = () => {
         setChecked(!checked)
+        dispatch(updateTodo({id, completed: todo.completed}))
     }
 
     const handleEdit = () => {
@@ -42,8 +42,9 @@ const TodoListItem = ({id}) => {
     }
 
     const handleColorChange = e => {
-        console.log('value: ', e.target.value)
-        setColor(e.target.value)
+        const newColor = e.target.value
+        setColor(newColor)
+        dispatch(updateTodo({id, color: newColor}))
     }
 
     const renderedMenuItem = apiColors.map(color => (
@@ -69,7 +70,7 @@ const TodoListItem = ({id}) => {
                     <Checkbox
                         color="success"
                         checked={checked}
-                        onChange={handleCheck}
+                        onChange={handleStatusChange}
                     />
                 </ListItemIcon>
                 <ListItemText
@@ -90,9 +91,6 @@ const TodoListItem = ({id}) => {
                         onChange={handleColorChange}
                         sx={{color: color}}
                     >
-                        <MenuItem value=''>
-                            <em>None</em>
-                        </MenuItem>
                         {renderedMenuItem}
                     </Select>
                 </FormControl>

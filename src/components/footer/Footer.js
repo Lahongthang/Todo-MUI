@@ -1,8 +1,31 @@
 import { useState } from "react"
-import { useSelector } from "react-redux"
-import { selectAllTodos } from "../../features/todos/todosSlice"
-import { selectAllColors, StatusFilters } from "../../features/filters/filtersSlice"
-import { Grid, Stack, Button, Box, Typography, ToggleButton, ToggleButtonGroup, FormGroup, FormControlLabel, Checkbox } from "@mui/material"
+import { useSelector, useDispatch } from "react-redux"
+import {
+    selectAllTodos,
+    selectTodoIds,
+    fetchTodos,
+    markOrClearAllCompleted
+} from "../../features/todos/todosSlice"
+
+import {
+    selectAllColors,
+    StatusFilters,
+    statusFilterChanged,
+    colorsFilterChanged
+} from "../../features/filters/filtersSlice"
+
+import {
+    Grid,
+    Stack,
+    Button,
+    Box,
+    Typography,
+    ToggleButton,
+    ToggleButtonGroup,
+    FormGroup,
+    FormControlLabel,
+    Checkbox
+} from "@mui/material"
 
 const RemainingTodos = ({count}) => {
     const suffix = count < 2 ? '' : 's'
@@ -19,21 +42,19 @@ const RemainingTodos = ({count}) => {
 }
 
 const StatusFilter = ({value: statusFilter, onChange}) => {
-    const [alignment, setAlignment] = useState(statusFilter)
     const handleChange = (e) => {
-        setAlignment(e.target.value)
+        const newStatus = e.target.value
+        onChange(newStatus)
     }
 
     const renderedFilters = Object.keys(StatusFilters).map(key => {
         const value = StatusFilters[key]
-        const handleClick = () => onChange(value)
         return (
             <ToggleButton
                 key={key}
                 size="small"
                 value={value}
                 sx={{border: 'none'}}
-                onClick={handleClick}
             >
                 {key}
             </ToggleButton>
@@ -47,7 +68,7 @@ const StatusFilter = ({value: statusFilter, onChange}) => {
             </Typography>
             <ToggleButtonGroup
                 orientation="vertical"
-                value={alignment}
+                value={statusFilter}
                 exclusive
                 onChange={handleChange}
             >
@@ -61,12 +82,16 @@ const StatusFilter = ({value: statusFilter, onChange}) => {
 const ColorFilter = ({value: colorsFilter, onChange}) => {
     const apiColors = useSelector(selectAllColors)
     const renderedFilters = apiColors.map(color => {
-        const handleChange = onChange(color)
+        const checked = colorsFilter.includes(color.name)
+        const handleChange = () => {
+            const changeType = checked ? 'removed' : 'added'
+            onChange(color.name, changeType)
+        }
         return (
             <Grid key={color.id} item xs={3} md={6}>
                 <FormGroup>
                     <FormControlLabel
-                        control={<Checkbox/>}
+                        control={<Checkbox checked={checked}/>}
                         label={color.name}
                         onChange={handleChange}
                     />
@@ -88,16 +113,33 @@ const ColorFilter = ({value: colorsFilter, onChange}) => {
 }
 
 const Footer = () => {
+    const dispatch = useDispatch()
     const todos = useSelector(selectAllTodos)
+    const todoIds = useSelector(selectTodoIds)
     const todosRemaining = todos.filter(todo => !todo.completed).length
     const {statusFilter, colorsFilter} = useSelector(state => state.filters)
 
-    const onStatusChange = () => {
-
+    const onStatusChange = (status) => {
+        dispatch(fetchTodos({status}))
+        dispatch(statusFilterChanged(status))
     }
 
-    const onColorChange = () => {
-        
+    const onColorChange = (color, changeType) => {
+        dispatch(colorsFilterChanged({color, changeType}))
+        const newColorsFilter = changeType === 'added' ?
+            colorsFilter.concat(color) :
+            colorsFilter.filter(existingColor => existingColor !== color)
+        dispatch(fetchTodos({colors: newColorsFilter}))
+    }
+
+    const handleMarkAllCompleted = () => {
+        dispatch(markOrClearAllCompleted({ids: todoIds, action: 'mark'}))
+        dispatch(fetchTodos({}))
+    }
+
+    const handleClearAllCompled = () => {
+        dispatch(markOrClearAllCompleted({ids: todoIds, action: 'clear'}))
+        dispatch(fetchTodos({}))
     }
 
     return (
@@ -105,10 +147,10 @@ const Footer = () => {
             <Grid container spacing={3}>
                 <Grid item xs={12} md={3}>
                     <Stack spacing={2}>
-                        <Button variant="contained" size='small'>
+                        <Button variant="contained" size='small' onClick={handleMarkAllCompleted}>
                             Mark All
                         </Button>
-                        <Button variant="contained" size='small'>
+                        <Button variant="contained" size='small' onClick={handleClearAllCompled}>
                             Delete Completed
                         </Button>
                     </Stack>

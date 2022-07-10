@@ -30,7 +30,29 @@ export const fetchColors = createAsyncThunk(
 const filtersSlice = createSlice({
     name: 'filters',
     initialState,
-    reducers: {},
+    reducers: {
+        statusFilterChanged (state, action) {
+            state.statusFilter = action.payload
+        },
+        colorsFilterChanged (state, action) {
+            const {color, changeType} = action.payload
+            const {colorsFilter} = state
+            switch (changeType) {
+                case 'added': {
+                    if (!colorsFilter.includes(color)) {
+                        state.colorsFilter.push(color)
+                    }
+                }
+                break
+                case 'removed': {
+                    state.colorsFilter = state.colorsFilter.filter(existingColor => existingColor !== color)
+                }
+                break
+                default:
+                    return state
+            }
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(fetchColors.pending, (state, action) => {
@@ -54,3 +76,5 @@ export const {
     selectById: selectColorById,
     selectEntities
 } = filtersAdapter.getSelectors(state => state.filters)
+
+export const {statusFilterChanged, colorsFilterChanged} = filtersSlice.actions

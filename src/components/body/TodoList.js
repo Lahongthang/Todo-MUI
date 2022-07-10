@@ -2,12 +2,11 @@ import {useSelector} from 'react-redux'
 import { selectTodoIds, selectAllTodos, selectEntities } from '../../features/todos/todosSlice'
 import TodoListItem from './TodoListItem'
 
-import { Box, Typography, List } from '@mui/material'
+import { Box, Typography, List, CircularProgress, Backdrop } from '@mui/material'
 
 const TodoList = () => {
     const todoIds = useSelector(selectTodoIds)
-    const meta = useSelector(state => state.todos.meta)
-    console.log('meta: ', meta)
+    const status = useSelector(state => state.todos.status)
 
     return (
         <Box>
@@ -19,9 +18,25 @@ const TodoList = () => {
                 Todos
             </Typography>
             <List>
-                {todoIds.map(id => (
+                {/* {todoIds.map(id => (
                     <TodoListItem key={id} id={id}/>
-                ))}
+                ))} */}
+                {status === 'idle' ? (
+                    todoIds.map(id => (
+                        <TodoListItem key={id} id={id}/>
+                    ))
+                ) : status === 'loading' ? (
+                    <Backdrop
+                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                        open={true}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                ) : (
+                    <Box textAlign={'center'}>
+                        <Typography variant='h4' component='h4'>Todos Not Found!</Typography>
+                    </Box>
+                )}
             </List>
         </Box>
     )

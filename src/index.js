@@ -8,19 +8,16 @@ import store from './store';
 import { fetchTodos } from './features/todos/todosSlice';
 import { fetchColors } from './features/filters/filtersSlice';
 
-store.dispatch(fetchTodos({}))
-store.dispatch(fetchColors({}))
+const getTodos = Promise.resolve(store.dispatch(fetchTodos({})))
+const getColors = Promise.resolve(store.dispatch(fetchColors({})))
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
-);
+Promise.all([getTodos, getColors]).then(() => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+  );
+  reportWebVitals();
+})
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

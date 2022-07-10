@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <Container>
         <Paper
-          elevation={10}
+          elevation={0}
           sx={{
               background: '#f5f5f5',
               maxWidth: 922,
