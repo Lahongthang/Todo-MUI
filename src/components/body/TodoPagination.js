@@ -1,7 +1,7 @@
 import {Link, useLocation} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchTodos } from "../../features/todos/todosSlice"
-import { Pagination, PaginationItem } from "@mui/material"
+import { Pagination, PaginationItem, GlobalStyles } from "@mui/material"
 
 const TodoPagination = () => {
     const dispatch = useDispatch()
@@ -22,7 +22,7 @@ const TodoPagination = () => {
 
     return (
         <Pagination
-            sx={{width: '200px', mx: 'auto'}}
+            sx={{display: 'flex', justifyContent: 'center'}}
             page={page}
             count={count}
             boundaryCount={2}

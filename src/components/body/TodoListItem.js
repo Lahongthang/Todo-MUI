@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { selectTodoById, deleteTodo, updateTodo } from "../../features/todos/todosSlice"
 import { selectAllColors } from "../../features/filters/filtersSlice"
@@ -24,11 +23,8 @@ const TodoListItem = ({id}) => {
     const todo = useSelector(state => selectTodoById(state, id))
     const todoColor = todo.color ? todo.color.name : ''
     const apiColors = useSelector(selectAllColors)
-    const [checked, setChecked] = useState(todo.completed)
-    const [color, setColor] = useState(todoColor)
 
     const handleStatusChange = () => {
-        setChecked(!checked)
         dispatch(updateTodo({id, completed: todo.completed}))
     }
 
@@ -43,7 +39,6 @@ const TodoListItem = ({id}) => {
 
     const handleColorChange = e => {
         const newColor = e.target.value
-        setColor(newColor)
         dispatch(updateTodo({id, color: newColor}))
     }
 
@@ -69,7 +64,7 @@ const TodoListItem = ({id}) => {
                 <ListItemIcon>
                     <Checkbox
                         color="success"
-                        checked={checked}
+                        checked={todo.completed}
                         onChange={handleStatusChange}
                     />
                 </ListItemIcon>
@@ -87,9 +82,9 @@ const TodoListItem = ({id}) => {
                         labelId={`todo${id}-color`}
                         id={`todo${id}-color`}
                         label='Color'
-                        value={color}
+                        value={todoColor}
                         onChange={handleColorChange}
-                        sx={{color: color}}
+                        sx={{color: todoColor}}
                     >
                         {renderedMenuItem}
                     </Select>

@@ -4,7 +4,9 @@ import {
     selectAllTodos,
     selectTodoIds,
     fetchTodos,
-    markOrClearAllCompleted
+    markOrClearAllCompleted,
+    markAllComplete,
+    deleteAllCompleted
 } from "../../features/todos/todosSlice"
 
 import {
@@ -26,7 +28,6 @@ import {
     FormControlLabel,
     Checkbox
 } from "@mui/material"
-import { blue } from "@mui/material/colors"
 
 const RemainingTodos = ({count}) => {
     const suffix = count < 2 ? '' : 's'
@@ -139,12 +140,13 @@ const Footer = () => {
 
     const handleMarkAllCompleted = () => {
         dispatch(markOrClearAllCompleted({ids: todoIds, action: 'mark'}))
-        dispatch(fetchTodos({}))
+        dispatch(markAllComplete())
     }
 
     const handleClearAllCompled = async () => {
         dispatch(markOrClearAllCompleted({ids: todoIds, action: 'clear'}))
         dispatch(fetchTodos({}))
+        // dispatch(deleteAllCompleted())
     }
 
     return (

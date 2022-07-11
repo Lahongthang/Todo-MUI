@@ -108,7 +108,20 @@ const todosSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-
+        markAllComplete(state) {
+            Object.values(state.entities).forEach(todo => {
+                todo.completed = true
+            })
+        },
+        deleteAllCompleted(state) {
+            const newEntities = {}
+            Object.values(state.entities).forEach(todo => {
+                if (!todo.completed) {
+                    newEntities[todo.id] = todo
+                }
+            })
+            state.entities = newEntities
+        }
     },
     extraReducers: builder => {
         builder
@@ -168,3 +181,5 @@ export const {
     selectTotal: selectTotalTodos,
     selectEntities
 } = todosAdapter.getSelectors(state => state.todos)
+
+export const {markAllComplete, deleteAllCompleted} = todosSlice.actions
