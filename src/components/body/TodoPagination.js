@@ -22,6 +22,7 @@ const TodoPagination = () => {
 
     return (
         <Pagination
+            sx={{width: '200px', mx: 'auto'}}
             page={page}
             count={count}
             boundaryCount={2}
