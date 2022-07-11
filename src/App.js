@@ -1,8 +1,11 @@
-import TodoList from "./components/body/TodoList"
+import {Routes, Route, MemoryRouter, BrowserRouter} from 'react-router-dom'
 import Header from "./components/header/Header"
+import TodoList from "./components/body/TodoList"
+import TodoPagination from "./components/body/TodoPagination"
 import Footer from "./components/footer/Footer"
 
 import {Container, Box, Paper, Grid} from '@mui/material'
+import Test from './components/body/Test'
 
 function App() {
   return (
@@ -20,6 +23,7 @@ function App() {
         >
           <Header/>
           <TodoList/>
+          <TodoPagination/>
           <Footer/>
         </Paper>
       </Container>

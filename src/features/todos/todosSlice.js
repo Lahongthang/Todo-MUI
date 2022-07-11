@@ -19,10 +19,11 @@ const initialState = todosAdapter.getInitialState({
 
 export const fetchTodos = createAsyncThunk(
     'todos/fetchTodos',
-    async ({colors, status}, {rejectWithValue, fulfillWithValue}) => {
+    async ({colors, status, page}, {rejectWithValue, fulfillWithValue}) => {
         const statusParam = status ? `&status=${status}` : ''
         const colorsParam = colors ? `&colors=${colors}` : ''
-        const url = baseUrl + 'todos?sortBy=dateDesc' + statusParam + colorsParam
+        const pageParam = page ? `&page=${page}` : ''
+        const url = baseUrl + 'todos?sortBy=dateDesc&pageSize=5' + statusParam + colorsParam + pageParam
         console.log('url: ', url)
         const response = await fetch(url, {headers})
         const data = await response.json()
@@ -115,6 +116,7 @@ const todosSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchTodos.fulfilled, (state, action) => {
+                console.log(action)
                 state.status = 'idle'
                 state.links = action.payload.links
                 state.meta = action.payload.meta
@@ -163,5 +165,6 @@ export const {
     selectAll: selectAllTodos,
     selectIds: selectTodoIds,
     selectById: selectTodoById,
+    selectTotal: selectTotalTodos,
     selectEntities
 } = todosAdapter.getSelectors(state => state.todos)

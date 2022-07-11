@@ -26,6 +26,7 @@ import {
     FormControlLabel,
     Checkbox
 } from "@mui/material"
+import { blue } from "@mui/material/colors"
 
 const RemainingTodos = ({count}) => {
     const suffix = count < 2 ? '' : 's'
@@ -34,7 +35,7 @@ const RemainingTodos = ({count}) => {
             <Typography variant="subtitle2" component='p'>
                 Remaining todos
             </Typography>
-            <Typography variant="" component='p'>
+            <Typography variant="subtitle1" component='p'>
                 {count} item{suffix} left
             </Typography>
         </Box>
@@ -88,12 +89,16 @@ const ColorFilter = ({value: colorsFilter, onChange}) => {
             onChange(color.name, changeType)
         }
         return (
-            <Grid key={color.id} item xs={3} md={6}>
+            <Grid item key={color.id} xs={3} md={6}>
                 <FormGroup>
                     <FormControlLabel
-                        control={<Checkbox checked={checked}/>}
+                        control={
+                            <>
+                                <Checkbox checked={checked} onChange={handleChange}/>
+                                <span style={{width: 28, height: 14, background: color.name, marginRight: 5}}/>
+                            </>
+                        }
                         label={color.name}
-                        onChange={handleChange}
                     />
                 </FormGroup>
             </Grid>
@@ -137,7 +142,7 @@ const Footer = () => {
         dispatch(fetchTodos({}))
     }
 
-    const handleClearAllCompled = () => {
+    const handleClearAllCompled = async () => {
         dispatch(markOrClearAllCompleted({ids: todoIds, action: 'clear'}))
         dispatch(fetchTodos({}))
     }
