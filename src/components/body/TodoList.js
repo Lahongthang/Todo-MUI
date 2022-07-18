@@ -26,7 +26,7 @@ const TodoList = () => {
         marginY={5}
         sx={{ textAlign: "center" }}
       >
-        All Todos
+        Todo List
       </Typography>
 
       <Divider />
