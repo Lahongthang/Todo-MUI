@@ -92,10 +92,9 @@ const TodoListItem = ({ id }) => {
         </FormControl>
 
         <IconButton edge="end" onClick={handleEdit} sx={{ marginX: 5 }}>
-          <EditIcon color="info" />
+          <EditIcon color="primary" />
         </IconButton>
       </ListItem>
-      {/* <Divider variant="inset" component="li" /> */}
     </>
   );
 };

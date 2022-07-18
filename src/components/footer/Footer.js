@@ -27,7 +27,7 @@ const Footer = () => {
   const { statusFilter, colorsFilter } = useSelector((state) => state.filters);
 
   const onStatusChange = (status) => {
-    dispatch(fetchTodos({ status }));
+    dispatch(fetchTodos({ status, colors: colorsFilter }));
     dispatch(statusFilterChanged(status));
   };
 
@@ -37,7 +37,7 @@ const Footer = () => {
       changeType === "added"
         ? colorsFilter.concat(color)
         : colorsFilter.filter((existingColor) => existingColor !== color);
-    dispatch(fetchTodos({ colors: newColorsFilter }));
+    dispatch(fetchTodos({ colors: newColorsFilter, status: statusFilter }));
   };
 
   const handleMarkAllCompleted = () => {
