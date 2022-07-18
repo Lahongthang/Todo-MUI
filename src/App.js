@@ -1,33 +1,63 @@
-import {Routes, Route, MemoryRouter, BrowserRouter} from 'react-router-dom'
-import Header from "./components/header/Header"
-import TodoList from "./components/body/TodoList"
-import TodoPagination from "./components/body/TodoPagination"
-import Footer from "./components/footer/Footer"
+import { Routes, Route, MemoryRouter, BrowserRouter } from "react-router-dom";
+import Header from "./components/header/Header";
+import TodoList from "./components/body/TodoList";
+import TodoPagination from "./components/body/TodoPagination";
+import Footer from "./components/footer/Footer";
+import Divider from '@mui/material/Divider'
 
-import {Container, Box, Paper, Grid} from '@mui/material'
-import Test from './components/body/Test'
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import { createTheme, ThemeProvider } from "@mui/material";
+
+const paperTheme = createTheme({
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#f5f5f5",
+          maxWidth: "922px",
+          margin: "auto",
+          overflow: "hidden",
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          margin: 'auto'
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none'
+        }
+      }
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          backgroundColor: ''
+        }
+      }
+    }
+  },
+});
 
 function App() {
   return (
-    <div className="App">
+    <ThemeProvider theme={paperTheme}>
       <Container>
-        <Paper
-          elevation={0}
-          sx={{
-              background: '#f5f5f5',
-              maxWidth: 922,
-              marginX: 'auto',
-              marginY: 10,
-              overflow: 'hidden'
-            }}
-        >
-          <Header/>
-          <TodoList/>
-          <TodoPagination/>
-          <Footer/>
+        <Paper elevation={0}>
+          <Header />
+          <TodoList />
+          <TodoPagination />
+          <Divider />
+          <Footer />
         </Paper>
       </Container>
-    </div>
+    </ThemeProvider>
   );
 }
 
