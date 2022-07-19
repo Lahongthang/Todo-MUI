@@ -1,4 +1,4 @@
-import { StatusFilters } from "../../features/filters/filtersSlice";
+import { StatusFilters } from "../../../features/filters/filtersSlice";
 
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'

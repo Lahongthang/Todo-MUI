@@ -22,7 +22,7 @@ export const fetchTodos = createAsyncThunk(
     async ({colors, status, page}, {rejectWithValue, fulfillWithValue}) => {
         const statusParam = status ? `&status=${status}` : ''
         const colorsParam = colors ? `&colors=${colors}` : ''
-        const pageParam = page ? `&page=${page}` : ''
+        const pageParam = page ? `&page=${page}` : '&page=1'
         const url = baseUrl + 'todos?sortBy=dateDesc&pageSize=5' + statusParam + colorsParam + pageParam
         console.log('url: ', url)
         const response = await fetch(url, {headers})
@@ -137,6 +137,7 @@ const todosSlice = createSlice({
             })
             .addCase(fetchTodos.rejected, (state) => {
                 state.status = 'failed'
+                todosAdapter.removeAll(state)
             })
 
             .addCase(addTodo.fulfilled, (state, action) => {

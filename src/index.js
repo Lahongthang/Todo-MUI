@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {BrowserRouter, MemoryRouter} from 'react-router-dom'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import {Provider} from 'react-redux'
 import './index.css';
 import App from './App';
@@ -17,7 +17,9 @@ Promise.all([getTodos, getColors]).then(() => {
   root.render(
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <Routes>
+            <Route path='/' element={<App/>}/>
+          </Routes>
         </BrowserRouter>
       </Provider>
   );

@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
-import { Routes, Route, MemoryRouter, BrowserRouter } from "react-router-dom";
-import Header from "./components/header/Header";
-import TodoList from "./components/body/TodoList";
-import TodoPagination from "./components/body/TodoPagination";
-import Footer from "./components/footer/Footer";
+import { selectTodoIds } from "./features/todos/todosSlice";
+import Navbar from "./components/navbar/Navbar";
+import Header from "./components/body/header/Header";
+import TodoList from "./components/body/main/TodoList";
+import TodoPagination from "./components/body/main/TodoPagination";
+import Footer from "./components/body/footer/Footer";
 import Divider from "@mui/material/Divider";
 
 import Container from "@mui/material/Container";
@@ -15,7 +16,6 @@ const customizeTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#f5f5f5",
           maxWidth: "922px",
           margin: "auto",
           overflow: "hidden",
@@ -36,26 +36,21 @@ const customizeTheme = createTheme({
         },
       },
     },
-    MuiListItem: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "",
-        },
-      },
-    },
   },
 });
 
 function App() {
-  const totalTodos = useSelector(state => state.todos.meta.total)
+  const totalTodos = useSelector((state) => state.todos.meta.total);
+  const todoIds = useSelector(selectTodoIds);
 
   return (
     <ThemeProvider theme={customizeTheme}>
+      <Navbar />
       <Container>
-        <Paper elevation={0}>
+        <Paper elevation={5}>
           <Header />
           <TodoList />
-          {(totalTodos > 5) && <TodoPagination />}
+          {totalTodos > 5 && todoIds.length > 0 && <TodoPagination />}
           <Divider />
           <Footer />
         </Paper>
