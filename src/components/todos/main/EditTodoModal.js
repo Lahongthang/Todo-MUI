@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectTodoById } from "../../../features/todos/todosSlice";
+import { useDispatch } from "react-redux";
+import { updateTodo } from "../../../features/todos/todosSlice";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import InputForm from "../header/InputForm";
@@ -24,13 +24,20 @@ const style = {
 };
 
 const EditTodoModal = ({ todo, open, onClose }) => {
+  const dispatch = useDispatch();
   const [text, setText] = useState(todo.text);
   const [checked, setChecked] = useState(todo.completed);
+  const [color, setColor] = useState(todo.color?.name)
 
   const handleClose = () => {
     setText(todo.text);
     setChecked(todo.completed);
     onClose();
+  };
+
+  const handleSave = () => {
+    dispatch(updateTodo({ id: todo.id, completed: !checked, text: text }));
+    onClose()
   };
 
   const handleTextChange = (e) => {
@@ -60,10 +67,12 @@ const EditTodoModal = ({ todo, open, onClose }) => {
           </Grid>
 
           <Stack spacing={2} direction="row" m={3} sx={{ float: "right" }}>
-            <Button variant="contained" onClick={onClose}>
+            <Button variant="contained" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="contained">Save</Button>
+            <Button variant="contained" onClick={handleSave}>
+              Save
+            </Button>
           </Stack>
         </Box>
       </Modal>
