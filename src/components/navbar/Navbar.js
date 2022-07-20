@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import HomeSharpIcon from "@mui/icons-material/HomeSharp";
@@ -7,33 +8,42 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 
 const navbarStyles = {
-    width: '100%',
-    mb: 5,
-    position: 'sticky',
-    top: 0,
-    bgcolor: '#fff',
-    zIndex: 2
-}
+  width: "100%",
+  mb: 5,
+  position: "sticky",
+  top: 0,
+  bgcolor: "#fff",
+  zIndex: 2,
+  '& .Mui-selected': {
+    color: 'rgb(0, 114, 229)!important'
+  },
+  '& .MuiTab-labelIcon': {
+    color: 'rgb(46 42 98)',
+    fontWeight: 'bold'
+  }
+};
 
 const Navbar = () => {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const navigate = useNavigate();
+  const location = useLocation()
+  const value = location.pathname === '/' ? 0 : 1
 
   return (
-    <Box
-      sx={navbarStyles}
-    >
+    <Box sx={navbarStyles}>
       <Tabs
         value={value}
-        onChange={handleChange}
-        aria-label="icon label tabs example"
         centered
       >
-        <Tab icon={<HomeSharpIcon />} label="HOME" />
-        <Tab icon={<ColorLensSharpIcon />} label="COLORS" />
+        <Tab
+          icon={<HomeSharpIcon />}
+          label="HOME"
+          onClick={() => navigate("/")}
+        />
+        <Tab
+          icon={<ColorLensSharpIcon />}
+          label="COLORS"
+          onClick={() => navigate("/colors")}
+        />
       </Tabs>
       <Divider />
     </Box>

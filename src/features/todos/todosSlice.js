@@ -1,5 +1,5 @@
 import {createSlice, createEntityAdapter, createAsyncThunk} from '@reduxjs/toolkit'
-import { encode } from '../tools/encode'
+import { encode } from '../tools/tools'
 
 export const baseUrl = 'http://localhost:8000/api/'
 
@@ -69,10 +69,11 @@ export const deleteTodo = createAsyncThunk(
 
 export const updateTodo = createAsyncThunk(
     'todos/updateTodo',
-    async ({id, completed, color}, {rejectWithValue, fulfillWithValue}) => {
+    async ({id, completed, color, text}, {rejectWithValue, fulfillWithValue}) => {
         const body = {}
         if (completed !== undefined) Object.assign(body, {completed: !completed})
         if (color !== undefined) Object.assign(body, {color})
+        if (text !== undefined) Object.assign(body, {text})
         const url = baseUrl + `todos/${id}`
         console.log('body: ', body)
         console.log('url: ', url)

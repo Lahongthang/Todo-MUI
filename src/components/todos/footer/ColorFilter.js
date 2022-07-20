@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectAllColors } from "../../features/filters/filtersSlice";
+import { selectAllColors } from "../../../features/filters/filtersSlice";
 
 import Grid from "@mui/material/Grid";
 import FormControlLabel from "@mui/material/FormControlLabel";

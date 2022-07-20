@@ -1,10 +1,5 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import {
-  selectTodoIds,
-  selectAllTodos,
-  selectEntities,
-} from "../../features/todos/todosSlice";
+import { selectTodoIds } from "../../../features/todos/todosSlice";
 import TodoListItem from "./TodoListItem";
 
 import Box from "@mui/material/Box";
@@ -12,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
-import Divider from '@mui/material/Divider'
+import Divider from "@mui/material/Divider";
 
 const TodoList = () => {
   const todoIds = useSelector(selectTodoIds);
@@ -22,7 +17,7 @@ const TodoList = () => {
     <Box>
       <Typography
         variant="h4"
-        component="div"
+        component="p"
         marginY={5}
         sx={{ textAlign: "center" }}
       >

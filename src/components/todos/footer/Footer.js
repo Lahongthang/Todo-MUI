@@ -9,12 +9,12 @@ import {
   fetchTodos,
   markOrClearAllCompleted,
   markAllComplete,
-} from "../../features/todos/todosSlice";
+} from "../../../features/todos/todosSlice";
 
 import {
   statusFilterChanged,
   colorsFilterChanged,
-} from "../../features/filters/filtersSlice";
+} from "../../../features/filters/filtersSlice";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";

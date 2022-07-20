@@ -17,9 +17,7 @@ Promise.all([getTodos, getColors]).then(() => {
   root.render(
       <Provider store={store}>
         <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<App/>}/>
-          </Routes>
+          <App />
         </BrowserRouter>
       </Provider>
   );

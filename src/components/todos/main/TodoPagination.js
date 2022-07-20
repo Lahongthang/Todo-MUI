@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTodos } from "../../features/todos/todosSlice";
+import { fetchTodos } from "../../../features/todos/todosSlice";
 import { Pagination } from "@mui/material";
 
 const TodoPagination = () => {
