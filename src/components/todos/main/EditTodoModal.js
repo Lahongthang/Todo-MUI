@@ -57,6 +57,7 @@ const EditTodoModal = ({ todo, open, onClose }) => {
             label="Edit todo"
             value={text}
             onChange={handleTextChange}
+            autoFocus={true}
           />
 
           <Grid container spacing={3}>

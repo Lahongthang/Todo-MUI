@@ -14,6 +14,7 @@ const customizeTheme = createTheme({
         root: {
           maxWidth: "922px",
           margin: "auto",
+          marginBottom: 50,
           overflow: "hidden",
         },
       },

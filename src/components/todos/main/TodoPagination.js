@@ -5,8 +5,8 @@ import { Pagination } from "@mui/material";
 const TodoPagination = () => {
   const dispatch = useDispatch();
   const { statusFilter, colorsFilter } = useSelector((state) => state.filters);
-  const totalTodos = useSelector((state) => state.todos.meta.links);
-  const count = totalTodos.length - 2;
+  const totalPage = useSelector((state) => state.todos.meta.links);
+  const count = totalPage.length - 2;
   const currentPage = useSelector((state) => state.todos.meta.current_page);
 
   const handleChange = (event, value) => {
@@ -19,7 +19,7 @@ const TodoPagination = () => {
   return (
     <Pagination
       sx={{ display: "flex", justifyContent: "center", mb: 3 }}
-      variant='outlined'
+      variant="outlined"
       color="primary"
       count={count}
       boundaryCount={2}
